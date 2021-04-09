@@ -1,11 +1,12 @@
-/* jslint:plusplus=true*/
-/*global console, alert, prompt, document, window*/
+/*global console, alert, document*/
 
 var history1 = document.getElementById("history");
 var current = document.getElementById("current");
 var isLastBtnNum = false;
 var equation = [];
 var values = null;
+var yourValue = null;
+var operator;
 
 
 
@@ -29,13 +30,20 @@ function getNumbers(num) {                  //get a numbers
 
 function getOperators(opr) {                // get the operator
     "use strict";
-    if (values) {
-        var operator = opr;
+    if (yourValue) {
+        operator = opr;
+        equation.push(yourValue);
+        equation.push(operator);
+        yourValue = null;
+        current.value = '';
+        history1.innerHTML = equation.join("");
+        isLastBtnNum = false;
+    } else if (values) {
+        operator = opr;
         equation.push(values);
         equation.push(operator);
         values = null;
         current.value = '';
-        
         history1.innerHTML = equation.join("");
         isLastBtnNum = false;
     } else {
@@ -108,4 +116,21 @@ function back() {                           //backspace button
         current.value = current.value.substring(0, current.value.length - 1);
         values = values.substring(0, values.length - 1);
     }
+}
+
+
+function toCurrencies(rate) {                           // function of currencies converter 
+    'use strict';
+    history1.innerHTML = values;
+    yourValue = Number(values) * rate;
+    current.value = yourValue;
+    isLastBtnNum = false;
+    
+}
+function fromCurrencies(rate) {
+    'use strict';
+    history1.innerHTML = values;
+    yourValue = Number(values) / rate;
+    current.value = yourValue;
+    isLastBtnNum = false;
 }
